@@ -1,0 +1,16 @@
+[project]
+name = "comfyui-3d-turnaround-splitter"
+description = "Split a turnaround reference sheet into four views on draggable guides, fit each view to an exact size without stretching or cropping, and hand the generated mesh to Meshwright for repair."
+version = "1.1.0"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = []
+
+[project.urls]
+Homepage = "https://www.geekatplay.com"
+Repository = "https://github.com/GeekatplayStudio/ComfyUI-3d-turnaround-splitter"
+
+[tool.comfy]
+PublisherId = "geekatplay"
+DisplayName = "3D Turnaround Splitter"
+Icon = ""
