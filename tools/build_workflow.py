@@ -21,7 +21,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
-SOURCE = os.path.join(ROOT, "3d_pixal3d_multi_views.json")
+SOURCE = os.path.join(ROOT, "workflows", "3d_pixal3d_multi_views.json")
 TARGET = os.path.join(ROOT, "workflows", "3d_geekatplay_turnaround_multiview.json")
 
 LOADER_ID = 364

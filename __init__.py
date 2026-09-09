@@ -40,34 +40,41 @@ WEB_DIRECTORY = "web"
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
 
 
-def _install_demo_asset():
+def _install_demo_assets():
     """
-    Put the demo turnaround sheet in ComfyUI's input folder.
+    Put the bundled turnaround sheets in ComfyUI's input folder.
 
-    The bundled workflow opens with this sheet already selected, so copying it
-    once on startup means the example runs on a fresh install instead of
-    greeting the user with a missing-file error. An existing file of the same
-    name is left alone.
+    The bundled workflows open with one of these sheets already selected, so
+    copying them once on startup means the example runs on a fresh install
+    instead of greeting the user with a missing-file error. Existing files of
+    the same name are left alone, so a sheet the user has edited is never
+    overwritten.
     """
     try:
         import folder_paths
     except ImportError:
         return
 
-    source = os.path.join(os.path.dirname(__file__), "workflows", "assets", "4-ref-caveman.png")
-    if not os.path.isfile(source):
+    asset_dir = os.path.join(os.path.dirname(__file__), "workflows", "assets")
+    if not os.path.isdir(asset_dir):
         return
 
-    destination = os.path.join(folder_paths.get_input_directory(), os.path.basename(source))
-    if os.path.exists(destination):
-        return
+    input_dir = folder_paths.get_input_directory()
+    for name in sorted(os.listdir(asset_dir)):
+        source = os.path.join(asset_dir, name)
+        if not os.path.isfile(source) or not name.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
+            continue
 
-    try:
-        os.makedirs(os.path.dirname(destination), exist_ok=True)
-        shutil.copyfile(source, destination)
-    except OSError as error:
-        print("[Geekatplay] could not copy the demo turnaround sheet: {}".format(error))
+        destination = os.path.join(input_dir, name)
+        if os.path.exists(destination):
+            continue
+
+        try:
+            os.makedirs(input_dir, exist_ok=True)
+            shutil.copyfile(source, destination)
+        except OSError as error:
+            print("[Geekatplay] could not copy the demo sheet {}: {}".format(name, error))
 
 
-_install_demo_asset()
+_install_demo_assets()
 register_routes()
